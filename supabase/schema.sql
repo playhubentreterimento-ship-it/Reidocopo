@@ -32,66 +32,59 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('product-images', 'product-images', true)
 ON CONFLICT (id) DO UPDATE SET public = true;
 
--- 5. Habilitar Row Level Security (RLS) e Conceder Permissões
-ALTER TABLE public.categories ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+-- 5. Conceder Permissões Globais para a API (anon, authenticated, authenticator)
+GRANT USAGE ON SCHEMA public TO anon, authenticated, authenticator, service_role;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated, authenticator, service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated, authenticator, service_role;
+GRANT ALL ON ALL ROUTINES IN SCHEMA public TO anon, authenticated, authenticator, service_role;
 
-GRANT USAGE ON SCHEMA public TO anon, authenticated;
-GRANT ALL ON TABLE public.products TO anon, authenticated;
-GRANT ALL ON TABLE public.categories TO anon, authenticated;
-GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO anon, authenticated, authenticator, service_role;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO anon, authenticated, authenticator, service_role;
 
 -- 6. Políticas de RLS para CATEGORIAS
+ALTER TABLE public.categories ENABLE ROW LEVEL SECURITY;
+
 DROP POLICY IF EXISTS "Categorias são visíveis publicamente" ON public.categories;
-CREATE POLICY "Categorias são visíveis publicamente"
+DROP POLICY IF EXISTS "Apenas autenticados podem inserir categorias" ON public.categories;
+DROP POLICY IF EXISTS "Apenas autenticados podem atualizar categorias" ON public.categories;
+DROP POLICY IF EXISTS "Apenas autenticados podem excluir categorias" ON public.categories;
+DROP POLICY IF EXISTS "categories_select_anon" ON public.categories;
+DROP POLICY IF EXISTS "categories_all_authenticated" ON public.categories;
+
+CREATE POLICY "categories_select_anon"
     ON public.categories FOR SELECT
+    TO anon
     USING (true);
 
-DROP POLICY IF EXISTS "Apenas autenticados podem inserir categorias" ON public.categories;
-CREATE POLICY "Apenas autenticados podem inserir categorias"
-    ON public.categories FOR INSERT
-    TO authenticated
-    WITH CHECK (true);
-
-DROP POLICY IF EXISTS "Apenas autenticados podem atualizar categorias" ON public.categories;
-CREATE POLICY "Apenas autenticados podem atualizar categorias"
-    ON public.categories FOR UPDATE
+CREATE POLICY "categories_all_authenticated"
+    ON public.categories FOR ALL
     TO authenticated
     USING (true)
     WITH CHECK (true);
-
-DROP POLICY IF EXISTS "Apenas autenticados podem excluir categorias" ON public.categories;
-CREATE POLICY "Apenas autenticados podem excluir categorias"
-    ON public.categories FOR DELETE
-    TO authenticated
-    USING (true);
 
 -- 7. Políticas de RLS para PRODUTOS
+ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+
 DROP POLICY IF EXISTS "Visitantes podem ler apenas produtos publicados" ON public.products;
-CREATE POLICY "Visitantes podem ler apenas produtos publicados"
-    ON public.products FOR SELECT
-    USING (
-        is_published = true OR auth.role() = 'authenticated'
-    );
-
 DROP POLICY IF EXISTS "Apenas autenticados podem inserir produtos" ON public.products;
-CREATE POLICY "Apenas autenticados podem inserir produtos"
-    ON public.products FOR INSERT
-    TO authenticated
-    WITH CHECK (true);
-
 DROP POLICY IF EXISTS "Apenas autenticados podem atualizar produtos" ON public.products;
-CREATE POLICY "Apenas autenticados podem atualizar produtos"
-    ON public.products FOR UPDATE
+DROP POLICY IF EXISTS "Apenas autenticados podem excluir produtos" ON public.products;
+DROP POLICY IF EXISTS "products_select_anon" ON public.products;
+DROP POLICY IF EXISTS "products_all_authenticated" ON public.products;
+
+CREATE POLICY "products_select_anon"
+    ON public.products FOR SELECT
+    TO anon
+    USING (is_published = true);
+
+CREATE POLICY "products_all_authenticated"
+    ON public.products FOR ALL
     TO authenticated
     USING (true)
     WITH CHECK (true);
 
-DROP POLICY IF EXISTS "Apenas autenticados podem excluir produtos" ON public.products;
-CREATE POLICY "Apenas autenticados podem excluir produtos"
-    ON public.products FOR DELETE
-    TO authenticated
-    USING (true);
+-- Forçar recarga imediata do cache do PostgREST
+NOTIFY pgrst, 'reload schema';
 
 -- 8. Políticas de RLS para STORAGE (bucket product-images)
 DROP POLICY IF EXISTS "Imagens de produtos são públicas" ON storage.objects;
