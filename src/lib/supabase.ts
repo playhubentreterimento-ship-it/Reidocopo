@@ -4,8 +4,21 @@ const metaEnv = (import.meta as unknown as { env?: Record<string, string> }).env
 const rawUrl = (metaEnv.VITE_SUPABASE_URL || '').trim();
 const rawKey = (metaEnv.VITE_SUPABASE_ANON_KEY || '').trim();
 
-// Sanitiza a URL removendo barras finais ou espaços para evitar o erro "Invalid path specified in request URL"
-export const supabaseUrl = rawUrl.replace(/\/+$/, '');
+function sanitizeSupabaseUrl(url: string): string {
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+  try {
+    const parsed = new URL(trimmed.startsWith('http') ? trimmed : `https://${trimmed}`);
+    // Retorna estritamente o origin: https://id.supabase.co
+    // Remove qualquer subcaminho como /rest/v1 ou /auth/v1 ou barras no final
+    return parsed.origin;
+  } catch {
+    return trimmed.replace(/\/rest\/v1\/?$/, '').replace(/\/auth\/v1\/?$/, '').replace(/\/+$/, '');
+  }
+}
+
+// Sanitiza a URL para evitar o erro PGRST125 "Invalid path specified in request URL"
+export const supabaseUrl = sanitizeSupabaseUrl(rawUrl);
 export const supabaseAnonKey = rawKey;
 
 export const isSupabaseConfigured = Boolean(
