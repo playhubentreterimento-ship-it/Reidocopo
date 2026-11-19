@@ -1,0 +1,13 @@
+REI DO COPO - PACOTE DE ARQUIVOS PARA O ANTIGRAVITY
+
+public/frames/  -> 240 frames WebP (frame_000000.webp a frame_000239.webp) do scroll storytelling
+public/assets/  -> fotos ja renomeadas e SEM logo de terceiros
+
+hero-bar-da-ink.webp          -> Hero (fundo) e catalogo
+copo-degrade-rosa.webp        -> Hero (copo flutuante), antes/depois, catalogo "Fosco degrade"
+taca-preta-dourada.webp       -> Catalogo "Tacas premium" e faixa horizontal
+copos-vermelhos-cordoes.webp  -> Catalogo "Com alca" e faixa horizontal
+copos-festa-iluminados.webp   -> Faixa horizontal e CTA final
+copos-choppada.webp           -> Antes/depois e catalogo "Estampa total"
+copo-lupulo-gelo.webp         -> Diferenciais e catalogo "Estampa total"
+copo-brasil-praia.webp        -> Faixa horizontal e diferenciais
