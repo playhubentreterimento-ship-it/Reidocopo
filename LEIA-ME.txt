@@ -1,6 +1,6 @@
 REI DO COPO - PACOTE DE ARQUIVOS PARA O ANTIGRAVITY
 
-public/frames/  -> 240 frames WebP (frame_000000.webp a frame_000239.webp) do scroll storytelling
+public/frames/  -> 120 frames WebP 720x1280 (frame_000000.webp a frame_000119.webp) do scroll storytelling
 public/assets/  -> fotos ja renomeadas e SEM logo de terceiros
 
 hero-bar-da-ink.webp          -> Hero (fundo) e catalogo

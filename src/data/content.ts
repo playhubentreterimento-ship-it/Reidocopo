@@ -31,10 +31,10 @@ export const STORYTELLING_STEPS: StorytellingStep[] = [
 ];
 
 export const MODEL_CAPTIONS: ModelCaption[] = [
-  { frameStart: 0, frameEnd: 60, label: 'FOSCO DEGRADÊ' },
-  { frameStart: 61, frameEnd: 125, label: 'ESTAMPA TOTAL' },
-  { frameStart: 126, frameEnd: 180, label: 'COM ALÇA' },
-  { frameStart: 181, frameEnd: 239, label: 'TAÇA PREMIUM' },
+  { frameStart: 0, frameEnd: 30, label: 'FOSCO DEGRADÊ' },
+  { frameStart: 31, frameEnd: 62, label: 'ESTAMPA TOTAL' },
+  { frameStart: 63, frameEnd: 90, label: 'COM ALÇA' },
+  { frameStart: 91, frameEnd: 119, label: 'TAÇA PREMIUM' },
 ];
 
 export const DIFFERENTIALS: DifferentialItem[] = [
