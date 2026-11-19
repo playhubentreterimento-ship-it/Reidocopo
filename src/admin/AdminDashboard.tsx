@@ -33,6 +33,9 @@ import {
 export const AdminDashboard: React.FC = () => {
   const [session, setSession] = useState<unknown | null>(null);
   const [authChecking, setAuthChecking] = useState(true);
+  const [isRecoveringPassword, setIsRecoveringPassword] = useState(() => {
+    return window.location.hash.includes('type=recovery');
+  });
 
   // Dados
   const [products, setProducts] = useState<DBProduct[]>([]);
@@ -84,7 +87,10 @@ export const AdminDashboard: React.FC = () => {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, currentSession) => {
+    } = supabase.auth.onAuthStateChange((event, currentSession) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsRecoveringPassword(true);
+      }
       setSession(currentSession);
       setAuthChecking(false);
     });
@@ -207,9 +213,17 @@ export const AdminDashboard: React.FC = () => {
     );
   }
 
-  // Se não autenticado, tela de login
-  if (!session) {
-    return <AdminLogin onSuccess={() => setAuthChecking(true)} />;
+  // Se não autenticado ou em fluxo de recuperação de senha
+  if (!session || isRecoveringPassword) {
+    return (
+      <AdminLogin
+        isRecoveryInitial={isRecoveringPassword}
+        onSuccess={() => {
+          setIsRecoveringPassword(false);
+          setAuthChecking(true);
+        }}
+      />
+    );
   }
 
   return (

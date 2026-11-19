@@ -1,8 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 
 const metaEnv = (import.meta as unknown as { env?: Record<string, string> }).env || {};
-const supabaseUrl = metaEnv.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = metaEnv.VITE_SUPABASE_ANON_KEY || '';
+const rawUrl = (metaEnv.VITE_SUPABASE_URL || '').trim();
+const rawKey = (metaEnv.VITE_SUPABASE_ANON_KEY || '').trim();
+
+// Sanitiza a URL removendo barras finais ou espaços para evitar o erro "Invalid path specified in request URL"
+export const supabaseUrl = rawUrl.replace(/\/+$/, '');
+export const supabaseAnonKey = rawKey;
 
 export const isSupabaseConfigured = Boolean(
   supabaseUrl &&
