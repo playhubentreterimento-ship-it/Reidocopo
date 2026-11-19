@@ -32,9 +32,14 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('product-images', 'product-images', true)
 ON CONFLICT (id) DO UPDATE SET public = true;
 
--- 5. Habilitar Row Level Security (RLS)
+-- 5. Habilitar Row Level Security (RLS) e Conceder Permissões
 ALTER TABLE public.categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+
+GRANT USAGE ON SCHEMA public TO anon, authenticated;
+GRANT ALL ON TABLE public.products TO anon, authenticated;
+GRANT ALL ON TABLE public.categories TO anon, authenticated;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated;
 
 -- 6. Políticas de RLS para CATEGORIAS
 DROP POLICY IF EXISTS "Categorias são visíveis publicamente" ON public.categories;
