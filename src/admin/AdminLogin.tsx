@@ -26,12 +26,29 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Detecta se a URL contém token de recuperação
+  // Detecta se a URL contém token de recuperação ou código PKCE
   useEffect(() => {
+    // 1. Suporte a PKCE modern (?code=...)
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    if (code && supabase) {
+      setLoading(true);
+      supabase.auth.exchangeCodeForSession(code).then(({ error }) => {
+        setLoading(false);
+        if (!error) {
+          setMode('reset');
+        } else {
+          setErrorMessage('Link de recuperação expirado ou já utilizado.');
+        }
+      });
+    }
+
+    // 2. Suporte a Hash (#type=recovery)
     if (window.location.hash.includes('type=recovery')) {
       setMode('reset');
     }
 
+    // 3. Ouvinte de evento Supabase
     if (supabase) {
       const {
         data: { subscription },
