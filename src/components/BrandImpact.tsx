@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { Sparkles, MoveHorizontal } from 'lucide-react';
 import { MARQUEE_TEXT } from '../data/content';
 
@@ -8,41 +8,41 @@ const GALLERY_PHOTOS = [
     src: '/assets/copo-degrade-rosa.webp',
     alt: 'Copo Fosco Degradê em celebração',
     label: 'FOSCO DEGRADÊ',
-    height: 'h-[360px] sm:h-[440px]',
+    span: 'sm:col-span-7 h-[340px] sm:h-[380px]',
   },
   {
     src: '/assets/taca-preta-dourada.webp',
     alt: 'Taça Premium Black & Gold',
     label: 'TAÇA VIP',
-    height: 'h-[320px] sm:h-[390px]',
+    span: 'sm:col-span-5 h-[340px] sm:h-[380px]',
   },
   {
     src: '/assets/copos-festa-iluminados.webp',
     alt: 'Copos iluminados na pista',
     label: 'ATMOSFERA DE PISTA',
     cropClass: 'crop-hide-bottom',
-    height: 'h-[380px] sm:h-[470px]',
+    span: 'sm:col-span-4 h-[300px] sm:h-[340px]',
   },
   {
     src: '/assets/copos-vermelhos-cordoes.webp',
     alt: 'Copos vermelhos com cordões',
     label: 'COM ALÇA & TIRANTE',
     cropClass: 'crop-hide-top',
-    height: 'h-[340px] sm:h-[410px]',
+    span: 'sm:col-span-4 h-[300px] sm:h-[340px]',
   },
   {
     src: '/assets/copo-brasil-praia.webp',
     alt: 'Copo solar evento praia',
     label: 'VERÃO & OPEN AIR',
     cropClass: 'crop-hide-bottom',
-    height: 'h-[360px] sm:h-[430px]',
+    span: 'sm:col-span-4 h-[300px] sm:h-[340px]',
   },
   {
     src: '/assets/copos-choppada.webp',
     alt: 'Copo Choppada estampa total',
     label: 'ESTAMPA TOTAL 360°',
     cropClass: 'crop-hide-top',
-    height: 'h-[370px] sm:h-[450px]',
+    span: 'sm:col-span-12 h-[260px] sm:h-[300px]',
   },
 ];
 
@@ -66,15 +66,6 @@ export const BrandImpact: React.FC = () => {
   const handleTouchMove = (e: React.TouchEvent) => {
     handleSliderMove(e.touches[0].clientX);
   };
-
-  // Horizontal Sticky Scroll
-  const horizontalSectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: horizontalScroll } = useScroll({
-    target: horizontalSectionRef,
-    offset: ['start start', 'end end'],
-  });
-
-  const translateX = useTransform(horizontalScroll, [0, 1], ['0%', '-55%']);
 
   // Marquee scroll direction reaction
   const [scrollDirection, setScrollDirection] = useState<'normal' | 'reverse'>('normal');
@@ -115,13 +106,13 @@ export const BrandImpact: React.FC = () => {
   }, [isCountInView]);
 
   return (
-    <section id="impacto" className="relative w-full bg-[#0A0A0D] py-24 sm:py-32 overflow-hidden">
+    <section id="impacto" className="relative w-full bg-[#0A0A0D] pt-16 sm:pt-20 pb-20 sm:pb-24 overflow-hidden m-0">
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#FF2E93]/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-0 w-[450px] h-[450px] bg-[#D9B777]/10 rounded-full blur-[160px] pointer-events-none" />
 
       {/* Main Section Header */}
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 mb-20 text-center">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 mb-14 sm:mb-16 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -158,7 +149,7 @@ export const BrandImpact: React.FC = () => {
         </motion.p>
 
         {/* Counter: +10 anos de mercado */}
-        <div className="mt-12 flex justify-center">
+        <div className="mt-10 sm:mt-12 flex justify-center">
           <div className="inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-6 px-8 py-4 rounded-3xl glass-panel border border-[#D9B777]/25 shadow-xl">
             <div className="flex items-baseline gap-1">
               <span className="font-serif text-5xl sm:text-6xl text-gradient-gold font-normal">
@@ -180,7 +171,7 @@ export const BrandImpact: React.FC = () => {
       </div>
 
       {/* Interactive Before / After Comparison */}
-      <div className="max-w-4xl mx-auto px-5 sm:px-8 mb-28">
+      <div className="max-w-4xl mx-auto px-5 sm:px-8 mb-16 sm:mb-20">
         <div className="text-center mb-6">
           <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#D9B777]">
             Interativo · Arraste para comparar
@@ -250,7 +241,7 @@ export const BrandImpact: React.FC = () => {
       </div>
 
       {/* Infinite Slow Marquee Banner */}
-      <div className="relative w-full py-5 border-y border-white/[0.06] bg-[#101015]/60 overflow-hidden mb-28">
+      <div className="relative w-full py-5 border-y border-white/[0.06] bg-[#101015]/60 overflow-hidden mb-16 sm:mb-20">
         <motion.div
           animate={{
             x: scrollDirection === 'normal' ? ['0%', '-50%'] : ['-50%', '0%'],
@@ -269,53 +260,73 @@ export const BrandImpact: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Sticky Horizontal Gallery Strip */}
-      <div ref={horizontalSectionRef} className="relative h-[280vh] w-full">
-        <div className="sticky top-20 sm:top-24 h-[calc(100svh-6rem)] w-full overflow-hidden flex flex-col justify-center">
-          <div className="max-w-7xl mx-auto px-5 sm:px-8 w-full mb-6 flex items-end justify-between">
-            <div>
-              <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#D9B777] block mb-2">
-                GALERIA DE EXPERIÊNCIAS
-              </span>
-              <h3 className="font-serif text-3xl sm:text-4xl text-[#F6F2EA]">
-                Ecopos nos melhores palcos
-              </h3>
-            </div>
-            <span className="hidden sm:inline-block font-mono text-xs text-[#A9A4B2]">
-              Scroll vertical guia o horizonte →
+      {/* Galeria Estática de Fotos (Sem Sticky, Altura Natural) */}
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="mb-8 flex items-end justify-between">
+          <div>
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#D9B777] block mb-2">
+              GALERIA DE EXPERIÊNCIAS
             </span>
+            <h3 className="font-serif text-3xl sm:text-4xl text-[#F6F2EA]">
+              Ecopos nos melhores palcos
+            </h3>
           </div>
+          <span className="sm:hidden font-mono text-[11px] text-[#A9A4B2]">
+            Arraste para o lado →
+          </span>
+        </div>
 
-          {/* Horizontal Track with Parallax & Hover Glow */}
-          <motion.div
-            style={{ x: translateX }}
-            className="flex items-center gap-6 sm:gap-8 px-5 sm:px-8 will-change-transform"
-          >
-            {GALLERY_PHOTOS.map((photo, idx) => (
-              <div
-                key={idx}
-                className={`flex-shrink-0 w-[270px] sm:w-[340px] ${photo.height} rounded-3xl overflow-hidden glass-panel group relative border border-white/[0.08] hover:border-[#D9B777]/50 transition-all duration-500 shadow-2xl`}
-              >
-                <div className="relative w-full h-full overflow-hidden">
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 group-hover:brightness-110 ${
-                      photo.cropClass || 'object-center'
-                    }`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0D]/90 via-transparent to-transparent opacity-80" />
-                </div>
-
-                {/* Bottom glass label */}
-                <div className="absolute bottom-5 inset-x-5 flex items-center justify-between z-10">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#F3E1B0] px-3 py-1 rounded-full glass-chip border border-[#D9B777]/30">
-                    {photo.label}
-                  </span>
-                </div>
+        {/* Desktop: Grade Assimétrica Natural */}
+        <div className="hidden sm:grid sm:grid-cols-12 gap-6 items-stretch">
+          {GALLERY_PHOTOS.map((photo, idx) => (
+            <div
+              key={idx}
+              className={`${photo.span} rounded-3xl overflow-hidden glass-panel group relative border border-white/[0.08] hover:border-[#D9B777]/50 transition-all duration-500 shadow-xl flex flex-col justify-end`}
+            >
+              <div className="absolute inset-0 w-full h-full overflow-hidden">
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 group-hover:brightness-110 ${
+                    photo.cropClass || 'object-center'
+                  }`}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0D]/90 via-transparent to-transparent opacity-80" />
               </div>
-            ))}
-          </motion.div>
+
+              {/* Bottom glass label */}
+              <div className="relative z-10 p-5 flex items-center justify-between">
+                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#F3E1B0] px-3.5 py-1 rounded-full glass-chip border border-[#D9B777]/30">
+                  {photo.label}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile: Carrossel Horizontal com Scroll-Snap Nativo */}
+        <div className="sm:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 no-scrollbar -mx-5 px-5">
+          {GALLERY_PHOTOS.map((photo, idx) => (
+            <div
+              key={idx}
+              className="snap-center flex-shrink-0 w-[270px] aspect-[4/5] rounded-3xl overflow-hidden glass-panel group relative border border-white/[0.08] flex flex-col justify-end shadow-xl"
+            >
+              <div className="absolute inset-0 w-full h-full overflow-hidden">
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  className={`w-full h-full object-cover ${photo.cropClass || 'object-center'}`}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0D]/90 via-transparent to-transparent opacity-80" />
+              </div>
+
+              <div className="relative z-10 p-4 flex items-center justify-between">
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#F3E1B0] px-3 py-1 rounded-full glass-chip border border-[#D9B777]/30">
+                  {photo.label}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

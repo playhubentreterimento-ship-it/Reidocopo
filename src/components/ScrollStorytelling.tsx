@@ -49,9 +49,9 @@ export const ScrollStorytelling: React.FC = () => {
     offset: ['start start', 'end end'],
   });
 
-  // Smooth spring for high-end cinematic response
+  // Smooth spring for high-end cinematic response (stiffness 140 for tighter sync with shorter scroll)
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
+    stiffness: 140,
     damping: 30,
     restDelta: 0.0005,
   });
@@ -232,10 +232,10 @@ export const ScrollStorytelling: React.FC = () => {
     <section
       id="storytelling"
       ref={containerRef}
-      className="relative w-full bg-[#0A0A0D] h-[600vh] md:h-[600vh] max-sm:h-[450vh]"
+      className="relative w-full bg-[#0A0A0D] h-[300vh] max-sm:h-[240vh] m-0 p-0"
     >
       {/* Sticky 100svh Container */}
-      <div className="sticky top-0 h-[100svh] w-full flex items-center justify-center overflow-hidden">
+      <div className="sticky top-0 h-[100svh] w-full flex items-center justify-center overflow-hidden m-0 p-0">
         {/* Ambient Stage Background & Dynamic Glow */}
         <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
           <div
@@ -346,10 +346,17 @@ export const ScrollStorytelling: React.FC = () => {
           {/* Center Column: 9:16 Canvas & Floating Glass Caption */}
           <div className="relative flex-1 flex items-center justify-center h-full max-h-[90vh] py-4">
             <div className="relative aspect-[9/16] h-[78vh] sm:h-[84vh] max-h-[820px] rounded-3xl overflow-hidden glass-panel flex items-center justify-center shadow-[0_30px_70px_rgba(0,0,0,0.9)]">
+              {/* Base fallback frame so canvas is never blank */}
+              <img
+                src="/frames/frame_000000.webp"
+                alt="Ecopo 3D Storytelling"
+                className="absolute inset-0 w-full h-full object-contain filter contrast-105 pointer-events-none"
+              />
+
               {/* HTML5 Canvas */}
               <canvas
                 ref={canvasRef}
-                className="w-full h-full object-contain filter contrast-105"
+                className="relative z-10 w-full h-full object-contain filter contrast-105"
               />
 
               {/* Dynamic Glass Caption Badge on Bottom of Canvas */}
