@@ -1,7 +1,6 @@
 import React from 'react';
 import { QuoteProvider } from './context/QuoteContext';
 import { ScrollProgressBar } from './components/ScrollProgressBar';
-import { CustomCursor } from './components/CustomCursor';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ScrollStorytelling } from './components/ScrollStorytelling';
@@ -18,20 +17,14 @@ import { FloatingQuoteButton } from './components/FloatingQuoteButton';
 export const App: React.FC = () => {
   return (
     <QuoteProvider>
-      {/* Film grain cinematic texture overlay (3.5% opacity) */}
-      <div className="film-grain" />
-
-      {/* Top 2px scroll progress bar */}
+      {/* 1px Champagne scroll progress bar */}
       <ScrollProgressBar />
 
-      {/* Custom desktop gold cursor */}
-      <CustomCursor />
-
-      {/* Floating minimal header */}
+      {/* Clean luxury minimal header */}
       <Header />
 
-      {/* Main landing flow */}
-      <main className="w-full relative z-10">
+      {/* Alternating rhythm flow */}
+      <main className="w-full relative">
         <Hero />
         <ScrollStorytelling />
         <BrandImpact />
@@ -42,13 +35,13 @@ export const App: React.FC = () => {
         <FinalCTA />
       </main>
 
-      {/* Minimal luxury footer */}
+      {/* Symmetrical luxury footer */}
       <Footer />
 
-      {/* Floating quote trigger & mobile bar */}
+      {/* Minimal floating quote trigger */}
       <FloatingQuoteButton />
 
-      {/* Interactive quote drawer / bottom sheet */}
+      {/* Refined quote drawer */}
       <QuoteDrawer />
     </QuoteProvider>
   );
