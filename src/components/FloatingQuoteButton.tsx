@@ -35,13 +35,15 @@ export const FloatingQuoteButton: React.FC = () => {
           >
             <button
               onClick={openDrawer}
-              className="px-5 py-3 rounded-[2px] bg-[#0C0B0A] text-[#F4EFE6] border border-[#B8975A]/60 text-xs font-mono uppercase tracking-[0.16em] hover:bg-[#B8975A] hover:text-[#0C0B0A] hover:border-[#B8975A] transition-colors shadow-xl flex items-center gap-3 font-medium"
+              className="px-6 py-3.5 rounded-full bg-[#0C0B0A] text-[#F4EFE6] border border-[#B8975A]/60 text-[14px] hover:bg-[#B8975A] hover:text-[#0C0B0A] hover:border-[#B8975A] transition-colors shadow-2xl flex items-center gap-3 font-semibold group"
             >
               <span>Minha cotação</span>
-              {totalDistinct > 0 && (
-                <span className="text-[#B8975A] font-bold group-hover:text-[#0C0B0A]">
-                  ({totalDistinct})
+              {totalDistinct > 0 ? (
+                <span className="w-5 h-5 rounded-full bg-[#B8975A] text-[#0C0B0A] group-hover:bg-[#0C0B0A] group-hover:text-[#F4EFE6] text-xs flex items-center justify-center font-bold">
+                  {totalDistinct}
                 </span>
+              ) : (
+                <span className="transition-transform group-hover:translate-x-0.5">→</span>
               )}
             </button>
           </motion.div>
@@ -52,11 +54,11 @@ export const FloatingQuoteButton: React.FC = () => {
             animate={{ y: 0 }}
             exit={{ y: 80 }}
             transition={{ duration: 0.25 }}
-            className="sm:hidden fixed bottom-0 inset-x-0 z-40 p-3 bg-[#0C0B0A] border-t border-white/[0.08] flex items-center gap-2"
+            className="sm:hidden fixed bottom-0 inset-x-0 z-40 p-3 bg-[#0C0B0A]/95 backdrop-blur-md border-t border-white/[0.08] flex items-center gap-2"
           >
             <button
               onClick={openDrawer}
-              className="flex-1 py-3 px-4 rounded-[2px] bg-[#161514] border border-white/[0.1] text-xs font-mono uppercase tracking-[0.14em] text-[#F4EFE6] text-center"
+              className="flex-1 py-3 px-4 rounded-full bg-[#161514] border border-white/[0.1] text-xs font-semibold text-[#F4EFE6] text-center"
             >
               Cotação {totalDistinct > 0 ? `(${totalDistinct})` : ''}
             </button>
@@ -65,10 +67,10 @@ export const FloatingQuoteButton: React.FC = () => {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 py-3 px-4 rounded-[2px] bg-[#F4EFE6] text-[#0C0B0A] text-xs font-medium uppercase tracking-[0.14em] text-center flex items-center justify-center gap-1.5"
+              className="flex-1 py-3 px-4 rounded-full bg-[#F4EFE6] text-[#0C0B0A] text-xs font-semibold text-center flex items-center justify-center gap-1.5"
             >
               <span>WhatsApp</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <span>→</span>
             </a>
           </motion.div>
         </>

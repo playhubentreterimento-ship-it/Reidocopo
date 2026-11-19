@@ -36,13 +36,13 @@ export const ProductModal: React.FC = () => {
           className="fixed inset-0 bg-[#0C0B0A]/85 backdrop-blur-sm"
         />
 
-        {/* Modal Dialog Card (Ivory clean luxury) */}
+        {/* Modal Dialog Card */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 16 }}
           transition={{ duration: 0.25 }}
-          className="relative z-10 w-full max-w-3xl rounded-[2px] bg-[#F4EFE6] text-[#1A1816] p-8 sm:p-12 border border-[#1A1816]/10 shadow-2xl"
+          className="relative z-10 w-full max-w-3xl rounded-[16px] bg-[#F4EFE6] text-[#1A1816] p-8 sm:p-12 border border-[#1A1816]/10 shadow-2xl"
         >
           {/* Close button */}
           <button
@@ -54,7 +54,7 @@ export const ProductModal: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             {/* Left: Product Image */}
-            <div className="relative aspect-[4/5] rounded-[2px] overflow-hidden bg-[#EAE3D6] border border-[#1A1816]/10 p-6 flex items-center justify-center">
+            <div className="relative aspect-[4/5] rounded-[12px] overflow-hidden bg-[#EAE3D6] border border-[#1A1816]/10 p-6 flex items-center justify-center">
               <img
                 src={item.image}
                 alt={item.name}
@@ -65,15 +65,15 @@ export const ProductModal: React.FC = () => {
             {/* Right: Details */}
             <div className="flex flex-col justify-between">
               <div>
-                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#B8975A] block mb-2">
+                <span className="font-sans font-semibold text-[13px] text-[#B8975A] block mb-2">
                   {item.categoryLabel}
                 </span>
 
-                <h3 className="font-serif text-3xl sm:text-4xl text-[#1A1816] mb-4 font-normal">
+                <h3 className="font-serif text-[1.8rem] sm:text-[2.2rem] text-[#1A1816] mb-4 font-medium leading-tight">
                   {item.name}
                 </h3>
 
-                <p className="text-sm sm:text-base text-[#6B655C] leading-[1.7] mb-6 font-normal">
+                <p className="font-sans text-[15px] sm:text-[16px] text-[#6B655C] leading-[1.65] mb-6 font-normal">
                   {item.fullDescription}
                 </p>
 
@@ -82,7 +82,7 @@ export const ProductModal: React.FC = () => {
                   {item.tags.map((tag, i) => (
                     <span
                       key={i}
-                      className="text-[10px] font-mono tracking-wider text-[#6B655C] bg-[#EAE3D6] px-2.5 py-1 rounded-[2px]"
+                      className="text-[12px] font-sans font-medium text-[#6B655C] bg-[#EAE3D6] px-3 py-1 rounded-full"
                     >
                       {tag}
                     </span>
@@ -92,21 +92,21 @@ export const ProductModal: React.FC = () => {
 
               {/* Quantity Stepper & Add */}
               <div className="pt-6 border-t border-[#1A1816]/10">
-                <div className="flex items-center justify-between mb-6 text-xs font-mono uppercase tracking-[0.12em] text-[#6B655C]">
-                  <span>Quantidade</span>
-                  <div className="flex items-center gap-3 bg-[#EAE3D6] rounded-[2px] p-1 border border-[#1A1816]/10">
+                <div className="flex items-center justify-between mb-6 text-sm font-sans font-medium text-[#6B655C]">
+                  <span>Quantidade desejada</span>
+                  <div className="flex items-center gap-3 bg-[#EAE3D6] rounded-full p-1 border border-[#1A1816]/10">
                     <button
                       onClick={() => setQuantity(q => Math.max(50, q - 50))}
-                      className="w-7 h-7 flex items-center justify-center text-[#1A1816] hover:bg-[#F4EFE6] transition-colors"
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-[#1A1816] hover:bg-[#F4EFE6] transition-colors"
                     >
                       <Minus className="w-3.5 h-3.5" />
                     </button>
-                    <span className="font-mono text-sm font-semibold text-[#1A1816] w-12 text-center">
+                    <span className="font-sans text-sm font-semibold text-[#1A1816] w-12 text-center">
                       {quantity}
                     </span>
                     <button
                       onClick={() => setQuantity(q => q + 50)}
-                      className="w-7 h-7 flex items-center justify-center text-[#1A1816] hover:bg-[#F4EFE6] transition-colors"
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-[#1A1816] hover:bg-[#F4EFE6] transition-colors"
                     >
                       <Plus className="w-3.5 h-3.5" />
                     </button>
@@ -116,7 +116,7 @@ export const ProductModal: React.FC = () => {
                 <div className="flex gap-3">
                   <button
                     onClick={handleAdd}
-                    className={`flex-1 py-3.5 px-6 rounded-[2px] text-xs font-medium uppercase tracking-[0.14em] transition-colors duration-200 flex items-center justify-center gap-2 ${
+                    className={`flex-1 py-3.5 px-6 rounded-full text-[15px] font-sans font-semibold transition-colors duration-200 flex items-center justify-center gap-2 ${
                       added
                         ? 'bg-[#B8975A] text-[#0C0B0A]'
                         : 'bg-[#1A1816] text-[#F4EFE6] hover:bg-[#B8975A] hover:text-[#0C0B0A]'
@@ -128,7 +128,10 @@ export const ProductModal: React.FC = () => {
                         <span>Adicionado ✓</span>
                       </>
                     ) : (
-                      <span>Adicionar à cotação</span>
+                      <>
+                        <span>Adicionar à cotação</span>
+                        <span className="text-base leading-none">→</span>
+                      </>
                     )}
                   </button>
 
@@ -136,7 +139,7 @@ export const ProductModal: React.FC = () => {
                     href={directWhatsAppUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3.5 rounded-[2px] bg-[#EAE3D6] border border-[#1A1816]/10 text-[#1A1816] hover:bg-[#1A1816] hover:text-[#F4EFE6] transition-colors flex items-center justify-center"
+                    className="p-3.5 rounded-full bg-[#EAE3D6] border border-[#1A1816]/10 text-[#1A1816] hover:bg-[#1A1816] hover:text-[#F4EFE6] transition-colors flex items-center justify-center"
                     title="Cotar no WhatsApp"
                   >
                     <MessageSquare className="w-4 h-4" />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Check, Eye } from 'lucide-react';
+import { Check, Eye } from 'lucide-react';
 import { CATALOG_CATEGORIES, CATALOG_ITEMS } from '../data/catalog';
 import { CatalogCategory, CatalogItem } from '../types';
 import { useQuote } from '../context/QuoteContext';
@@ -19,10 +19,10 @@ const CleanCatalogCard: React.FC<{ item: CatalogItem }> = ({ item }) => {
   return (
     <div
       onClick={() => openProductModal(item)}
-      className="group cursor-pointer flex flex-col justify-between bg-[#F4EFE6] border border-[#1A1816]/10 p-5 rounded-[2px] transition-colors hover:border-[#B8975A]"
+      className="group cursor-pointer flex flex-col justify-between bg-[#F4EFE6] border border-[#1A1816]/10 p-6 rounded-[14px] transition-all hover:border-[#B8975A] hover:shadow-lg"
     >
       {/* 4:5 Image Container */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#EAE3D6] rounded-[2px] p-6 flex items-center justify-center mb-5">
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#EAE3D6] rounded-[10px] p-6 flex items-center justify-center mb-5">
         <img
           src={item.image}
           alt={item.name}
@@ -31,7 +31,7 @@ const CleanCatalogCard: React.FC<{ item: CatalogItem }> = ({ item }) => {
           }`}
         />
         {item.badge && (
-          <span className="absolute top-3 left-3 text-[10px] font-mono uppercase tracking-[0.16em] text-[#1A1816] bg-[#F4EFE6] px-2.5 py-0.5 border border-[#1A1816]/10 rounded-[2px]">
+          <span className="absolute top-3 left-3 text-[12px] font-sans font-semibold text-[#1A1816] bg-[#F4EFE6] px-3 py-1 border border-[#1A1816]/10 rounded-full">
             {item.badge}
           </span>
         )}
@@ -40,36 +40,36 @@ const CleanCatalogCard: React.FC<{ item: CatalogItem }> = ({ item }) => {
       {/* Typography: Name, Description, Hairline */}
       <div className="flex-1 flex flex-col justify-between">
         <div>
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#B8975A] block mb-1.5">
+          <span className="font-sans font-semibold text-[12px] text-[#B8975A] block mb-1.5">
             {item.categoryLabel}
           </span>
-          <h3 className="font-serif text-2xl text-[#1A1816] font-normal mb-2">
+          <h3 className="font-serif text-[1.4rem] sm:text-[1.55rem] text-[#1A1816] font-medium mb-2">
             {item.name}
           </h3>
-          <p className="text-xs sm:text-sm text-[#6B655C] line-clamp-1 mb-4 font-normal leading-relaxed">
+          <p className="font-sans text-[14px] text-[#6B655C] line-clamp-1 mb-5 font-normal leading-relaxed">
             {item.shortDescription}
           </p>
         </div>
 
         {/* 1px Fine Separator */}
-        <div className="pt-4 border-t border-[#1A1816]/10 flex items-center gap-2">
+        <div className="pt-4 border-t border-[#1A1816]/10 flex items-center gap-2.5">
           <button
             onClick={handleQuickAdd}
-            className={`flex-1 py-3 px-4 rounded-[2px] text-xs font-mono uppercase tracking-[0.14em] font-medium transition-colors duration-200 flex items-center justify-center gap-1.5 border ${
+            className={`flex-1 py-3 px-5 rounded-full text-[14px] font-sans font-semibold transition-colors duration-200 flex items-center justify-center gap-2 border ${
               added
                 ? 'bg-[#B8975A] text-[#0C0B0A] border-[#B8975A]'
-                : 'border-[#1A1816]/25 text-[#1A1816] hover:bg-[#1A1816] hover:text-[#F4EFE6] hover:border-[#1A1816]'
+                : 'border-[#1A1816]/30 text-[#1A1816] hover:bg-[#1A1816] hover:text-[#F4EFE6] hover:border-[#1A1816]'
             }`}
           >
             {added ? (
               <>
-                <Check className="w-3.5 h-3.5" />
+                <Check className="w-4 h-4" />
                 <span>Adicionado ✓</span>
               </>
             ) : (
               <>
-                <Plus className="w-3.5 h-3.5" />
                 <span>Adicionar à cotação</span>
+                <span className="text-base leading-none">→</span>
               </>
             )}
           </button>
@@ -79,10 +79,10 @@ const CleanCatalogCard: React.FC<{ item: CatalogItem }> = ({ item }) => {
               e.stopPropagation();
               openProductModal(item);
             }}
-            className="p-3 rounded-[2px] border border-[#1A1816]/25 text-[#6B655C] hover:text-[#1A1816] hover:border-[#1A1816] transition-colors"
+            className="p-3 rounded-full border border-[#1A1816]/30 text-[#6B655C] hover:text-[#1A1816] hover:border-[#1A1816] transition-colors"
             title="Ver detalhes"
           >
-            <Eye className="w-3.5 h-3.5" />
+            <Eye className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -103,15 +103,18 @@ export const Catalog: React.FC = () => {
       <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20">
-          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#B8975A] mb-4 block">
-            Catálogo Exclusivo
-          </span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#B8975A]/40 bg-[#EAE3D6] mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#B8975A]" />
+            <span className="font-sans font-semibold text-[13px] text-[#1A1816]">
+              Catálogo de modelos
+            </span>
+          </div>
 
-          <h2 className="font-serif text-[clamp(2.5rem,5.5vw,4.5rem)] leading-[1.05] tracking-tight font-normal text-[#1A1816] mb-6">
-            Escolha seus <span className="italic font-normal">copos.</span>
+          <h2 className="font-serif font-medium text-[clamp(2rem,4vw,3.4rem)] leading-[1.08] tracking-[-0.02em] text-[#1A1816] mb-6">
+            Escolha seus <span className="italic font-medium text-[#B8975A]">copos.</span>
           </h2>
 
-          <p className="text-base text-[#6B655C] leading-[1.7] font-normal">
+          <p className="font-sans text-[17px] sm:text-[18px] text-[#6B655C] leading-[1.65] font-normal">
             Selecione os modelos, defina a quantidade e receba sua cotação direto no WhatsApp com um
             consultor dedicado.
           </p>
@@ -123,10 +126,10 @@ export const Catalog: React.FC = () => {
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id as CatalogCategory)}
-              className={`pb-2 text-xs uppercase tracking-[0.16em] transition-colors whitespace-nowrap border-b ${
+              className={`pb-2 font-sans text-[15px] transition-colors whitespace-nowrap border-b-2 ${
                 activeCategory === category.id
                   ? 'text-[#1A1816] border-[#B8975A] font-semibold'
-                  : 'text-[#6B655C] border-transparent hover:text-[#1A1816]'
+                  : 'text-[#6B655C] border-transparent hover:text-[#1A1816] font-medium'
               }`}
             >
               {category.label}

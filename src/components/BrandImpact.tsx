@@ -82,30 +82,33 @@ export const BrandImpact: React.FC = () => {
         <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
           {/* Header */}
           <div className="max-w-3xl mx-auto text-center mb-16 sm:mb-20">
-            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#B8975A] mb-4 block">
-              Sua Marca Em Mil Mãos
-            </span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#B8975A]/40 bg-[#EAE3D6] mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#B8975A]" />
+              <span className="font-sans font-semibold text-[13px] text-[#1A1816]">
+                Sua marca em mil mãos
+              </span>
+            </div>
 
-            <h2 className="font-serif text-[clamp(2.5rem,5.5vw,4.5rem)] leading-[1.05] tracking-[-0.01em] text-[#1A1816] mb-6 font-normal">
+            <h2 className="font-serif font-medium text-[clamp(2rem,4vw,3.4rem)] leading-[1.08] tracking-[-0.02em] text-[#1A1816] mb-6">
               Sem marca, é só um copo.{' '}
-              <span className="italic font-normal">Com ela, é lembrança.</span>
+              <span className="italic font-medium text-[#B8975A]">Com ela, é lembrança.</span>
             </h2>
 
-            <p className="text-base sm:text-lg text-[#6B655C] leading-[1.7] max-w-xl mx-auto font-normal">
+            <p className="font-sans font-normal text-[17px] sm:text-[18px] text-[#6B655C] leading-[1.65] max-w-xl mx-auto">
               Um descartável termina no lixo em minutos. Um ecopo personalizado acompanha seu
               convidado para casa e mantém sua história viva nos momentos mais autênticos.
             </p>
 
             {/* Contador +10 Anos Limpo */}
             <div className="mt-10 flex justify-center">
-              <div className="inline-flex items-center gap-6 pt-6 border-t border-[#B8975A]/40 text-left">
-                <span className="font-serif text-5xl sm:text-6xl text-[#1A1816] font-normal leading-none">
+              <div className="inline-flex items-center gap-5 pt-6 border-t border-[#B8975A]/30 text-left">
+                <span className="font-serif text-5xl sm:text-6xl text-[#1A1816] font-medium leading-none">
                   +<span ref={countRef}>{displayCount}</span>{' '}
-                  <span className="italic text-2xl sm:text-3xl font-normal text-[#B8975A]">anos</span>
+                  <span className="italic text-2xl sm:text-3xl font-medium text-[#B8975A]">anos</span>
                 </span>
                 <div className="h-8 w-[1px] bg-[#1A1816]/15" />
-                <span className="font-mono text-xs uppercase tracking-[0.16em] text-[#6B655C]">
-                  Tradição em Ecopos no Brasil
+                <span className="font-sans text-[13px] font-semibold text-[#6B655C]">
+                  Mais de uma década fabricando ecopos de alta resistência
                 </span>
               </div>
             </div>
@@ -173,15 +176,18 @@ export const BrandImpact: React.FC = () => {
         <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
           <div className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#B8975A] block mb-2">
-                Galeria Editorial
-              </span>
-              <h3 className="font-serif text-3xl sm:text-4xl text-[#1A1816] font-normal">
-                Ecopos nos melhores palcos
-              </h3>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#B8975A]/40 bg-[#F4EFE6] mb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#B8975A]" />
+                <span className="font-sans font-semibold text-[13px] text-[#1A1816]">
+                  Galeria de experiências
+                </span>
+              </div>
+              <h2 className="font-serif font-medium text-[clamp(2rem,4vw,3.4rem)] leading-[1.08] tracking-[-0.02em] text-[#1A1816]">
+                Ecopos nos <span className="italic font-medium text-[#B8975A]">melhores palcos.</span>
+              </h2>
             </div>
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6B655C]">
-              Acabamentos em Alta Definição
+            <span className="font-sans text-[13px] font-medium text-[#6B655C]">
+              Acabamentos em alta definição
             </span>
           </div>
 
@@ -190,7 +196,7 @@ export const BrandImpact: React.FC = () => {
             {GALLERY_PHOTOS.map((photo, idx) => (
               <div
                 key={idx}
-                className={`${photo.span} rounded-[2px] overflow-hidden bg-[#F4EFE6] border border-[#1A1816]/10 group relative flex flex-col justify-end`}
+                className={`${photo.span} rounded-[14px] overflow-hidden bg-[#F4EFE6] border border-[#1A1816]/10 group relative flex flex-col justify-end shadow-md`}
               >
                 <div className="absolute inset-0 w-full h-full overflow-hidden">
                   <img
@@ -204,7 +210,7 @@ export const BrandImpact: React.FC = () => {
                 </div>
 
                 <div className="relative z-10 p-5 flex items-center justify-between text-[#F4EFE6]">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] bg-[#0C0B0A]/90 px-3 py-1 border border-white/[0.08] rounded-[2px]">
+                  <span className="font-sans text-[13px] font-semibold bg-[#0C0B0A]/90 px-3.5 py-1 rounded-full border border-white/[0.08]">
                     {photo.label}
                   </span>
                 </div>
@@ -217,7 +223,7 @@ export const BrandImpact: React.FC = () => {
             {GALLERY_PHOTOS.map((photo, idx) => (
               <div
                 key={idx}
-                className="snap-center flex-shrink-0 w-[270px] aspect-[4/5] rounded-[2px] overflow-hidden bg-[#F4EFE6] border border-[#1A1816]/10 relative flex flex-col justify-end"
+                className="snap-center flex-shrink-0 w-[270px] aspect-[4/5] rounded-[14px] overflow-hidden bg-[#F4EFE6] border border-[#1A1816]/10 relative flex flex-col justify-end"
               >
                 <img
                   src={photo.src}
@@ -228,7 +234,7 @@ export const BrandImpact: React.FC = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0C0B0A]/80 via-transparent to-transparent opacity-60" />
                 <div className="relative z-10 p-4">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#F4EFE6] bg-[#0C0B0A]/90 px-2.5 py-1 border border-white/[0.08] rounded-[2px]">
+                  <span className="font-sans text-[12px] font-semibold text-[#F4EFE6] bg-[#0C0B0A]/90 px-3 py-1 rounded-full border border-white/[0.08]">
                     {photo.label}
                   </span>
                 </div>

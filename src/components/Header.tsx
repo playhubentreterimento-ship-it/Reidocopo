@@ -49,16 +49,16 @@ export const Header: React.FC = () => {
           </span>
         </a>
 
-        {/* Desktop Navigation Links (Clean uppercase 11-12px) */}
+        {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-8">
           {CONFIG.navigation.map(link => (
             <a
               key={link.href}
               href={link.href}
-              className="text-xs uppercase tracking-[0.16em] text-[#A59E92] hover:text-[#F4EFE6] transition-colors relative group py-1 font-medium"
+              className="text-[14px] text-[#A59E92] hover:text-[#F4EFE6] transition-colors relative group py-1 font-medium font-sans"
             >
               {link.label}
-              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#B8975A] transition-all duration-300 group-hover:w-full" />
+              <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#B8975A] transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </nav>
@@ -67,7 +67,7 @@ export const Header: React.FC = () => {
         <div className="flex items-center gap-4">
           <button
             onClick={openDrawer}
-            className="px-4 py-2 rounded-[2px] border border-[#B8975A]/60 text-xs uppercase tracking-[0.14em] text-[#F4EFE6] hover:bg-[#B8975A] hover:text-[#0C0B0A] hover:border-[#B8975A] transition-colors duration-200 font-medium"
+            className="px-5 py-2.5 rounded-full border border-[#B8975A]/60 text-[14px] font-sans font-semibold text-[#F4EFE6] hover:bg-[#B8975A] hover:text-[#0C0B0A] hover:border-[#B8975A] transition-colors duration-200"
           >
             Cotação {totalDistinct > 0 ? `(${totalDistinct})` : ''}
           </button>

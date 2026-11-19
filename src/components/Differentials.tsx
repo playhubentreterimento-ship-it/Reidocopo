@@ -5,18 +5,21 @@ export const Differentials: React.FC = () => {
   return (
     <section id="diferenciais" className="relative w-full bg-[#F4EFE6] text-[#1A1816] py-32 sm:py-40 border-t border-[#1A1816]/10">
       <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
-        {/* Subtle label */}
+        {/* Subtle pill label with gold dot */}
         <div className="text-center mb-6">
-          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#B8975A]">
-            O Padrão Rei do Copo
-          </span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#B8975A]/40 bg-[#EAE3D6]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#B8975A]" />
+            <span className="font-sans font-semibold text-[13px] text-[#1A1816]">
+              O padrão Rei do Copo
+            </span>
+          </div>
         </div>
 
-        {/* Statement Title */}
+        {/* Statement Title: Fraunces 500 with Italic Gold */}
         <div className="text-center mb-20 sm:mb-24">
-          <h2 className="font-serif text-[clamp(2.5rem,5.5vw,5rem)] leading-[1.05] tracking-tight font-normal text-[#1A1816]">
+          <h2 className="font-serif font-medium text-[clamp(2rem,4vw,3.4rem)] leading-[1.08] tracking-[-0.02em] text-[#1A1816]">
             Ecológico.{' '}
-            <span className="italic font-normal">Resistente.</span>{' '}
+            <span className="italic font-medium text-[#B8975A]">Resistente.</span>{' '}
             Seu.
           </h2>
         </div>
@@ -31,19 +34,19 @@ export const Differentials: React.FC = () => {
               }`}
             >
               <div>
-                <span className="font-serif text-3xl sm:text-4xl text-[#B8975A] block mb-6 font-normal">
+                <span className="font-serif text-4xl sm:text-5xl text-[#B8975A] block mb-5 font-medium">
                   0{idx + 1}
                 </span>
 
-                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#6B655C] block mb-3">
+                <span className="font-sans font-semibold text-[12px] text-[#6B655C] block mb-2 tracking-[0.04em]">
                   {item.tag}
                 </span>
 
-                <h3 className="font-serif text-2xl sm:text-3xl text-[#1A1816] mb-4 font-normal">
+                <h3 className="font-serif text-[1.45rem] sm:text-[1.6rem] text-[#1A1816] mb-3 font-medium">
                   {item.title}
                 </h3>
 
-                <p className="text-base text-[#6B655C] leading-[1.7] font-normal">
+                <p className="font-sans font-normal text-[17px] text-[#6B655C] leading-[1.65]">
                   {item.description}
                 </p>
               </div>

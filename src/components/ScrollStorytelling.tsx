@@ -337,57 +337,57 @@ export const ScrollStorytelling: React.FC = () => {
           <div className="hidden lg:flex flex-col justify-center w-[46%] max-w-xl z-20">
             {/* Step 1 */}
             <div ref={step1Ref} className="transition-opacity duration-300 block opacity-100">
-              <span className="font-serif text-3xl sm:text-4xl text-[#B8975A] block mb-3 font-normal">
+              <span className="font-serif text-4xl sm:text-5xl text-[#B8975A] block mb-3 font-medium">
                 01
               </span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#A59E92] block mb-4">
+              <span className="font-sans font-semibold text-[12px] uppercase tracking-[0.16em] text-[#A59E92] block mb-4">
                 {STORYTELLING_STEPS[0].microlabel}
               </span>
-              <h2 className="font-serif text-[clamp(2.5rem,4.2vw,3.75rem)] leading-[1.05] tracking-tight text-[#F4EFE6] mb-6 font-normal">
-                Tudo começa com a <span className="italic font-normal">sua marca.</span>
+              <h2 className="font-serif text-[clamp(2.5rem,4.2vw,3.75rem)] leading-[1.05] tracking-tight text-[#F4EFE6] mb-6 font-medium">
+                Tudo começa com a <span className="italic font-medium text-[#B8975A]">sua marca.</span>
               </h2>
-              <p className="text-base text-[#A59E92] leading-[1.7] max-w-md font-normal">
+              <p className="font-sans font-normal text-[17px] text-[#A59E92] leading-[1.65] max-w-md">
                 {STORYTELLING_STEPS[0].text}
               </p>
             </div>
 
             {/* Step 2 */}
             <div ref={step2Ref} className="transition-opacity duration-300 hidden opacity-0">
-              <span className="font-serif text-3xl sm:text-4xl text-[#B8975A] block mb-3 font-normal">
+              <span className="font-serif text-4xl sm:text-5xl text-[#B8975A] block mb-3 font-medium">
                 02
               </span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#A59E92] block mb-4">
+              <span className="font-sans font-semibold text-[12px] uppercase tracking-[0.16em] text-[#A59E92] block mb-4">
                 {STORYTELLING_STEPS[1].microlabel}
               </span>
-              <h2 className="font-serif text-[clamp(2.5rem,4.2vw,3.75rem)] leading-[1.05] tracking-tight text-[#F4EFE6] mb-6 font-normal">
-                Um modelo para <span className="italic font-normal">cada noite.</span>
+              <h2 className="font-serif text-[clamp(2.5rem,4.2vw,3.75rem)] leading-[1.05] tracking-tight text-[#F4EFE6] mb-6 font-medium">
+                Um modelo para <span className="italic font-medium text-[#B8975A]">cada noite.</span>
               </h2>
-              <p className="text-base text-[#A59E92] leading-[1.7] max-w-md font-normal">
+              <p className="font-sans font-normal text-[17px] text-[#A59E92] leading-[1.65] max-w-md">
                 {STORYTELLING_STEPS[1].text}
               </p>
             </div>
 
             {/* Step 3 */}
             <div ref={step3Ref} className="transition-opacity duration-300 hidden opacity-0">
-              <span className="font-serif text-3xl sm:text-4xl text-[#B8975A] block mb-3 font-normal">
+              <span className="font-serif text-4xl sm:text-5xl text-[#B8975A] block mb-3 font-medium">
                 03
               </span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#A59E92] block mb-4">
+              <span className="font-sans font-semibold text-[12px] uppercase tracking-[0.16em] text-[#A59E92] block mb-4">
                 {STORYTELLING_STEPS[2].microlabel}
               </span>
-              <h2 className="font-serif text-[clamp(2.5rem,4.2vw,3.75rem)] leading-[1.05] tracking-tight text-[#F4EFE6] mb-6 font-normal">
-                E ela vai aonde <span className="italic font-normal">você não está.</span>
+              <h2 className="font-serif text-[clamp(2.5rem,4.2vw,3.75rem)] leading-[1.05] tracking-tight text-[#F4EFE6] mb-6 font-medium">
+                E ela vai aonde <span className="italic font-medium text-[#B8975A]">você não está.</span>
               </h2>
-              <p className="text-base text-[#A59E92] leading-[1.7] max-w-md font-normal mb-8">
+              <p className="font-sans font-normal text-[17px] text-[#A59E92] leading-[1.65] max-w-md mb-8">
                 {STORYTELLING_STEPS[2].text}
               </p>
 
               <a
                 href="#catalogo"
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-[2px] bg-[#F4EFE6] text-[#0C0B0A] text-xs uppercase tracking-[0.14em] font-medium hover:bg-[#B8975A] transition-colors"
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-[#F4EFE6] text-[#0C0B0A] font-sans font-semibold text-[15px] sm:text-[16px] hover:bg-[#B8975A] transition-colors"
               >
                 <span>{STORYTELLING_STEPS[2].ctaText}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <span className="text-lg leading-none">→</span>
               </a>
             </div>
           </div>
@@ -475,10 +475,10 @@ export const ScrollStorytelling: React.FC = () => {
               </p>
               <a
                 href="#catalogo"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-[2px] text-xs font-medium uppercase tracking-[0.14em] text-[#0C0B0A] bg-[#F4EFE6]"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-sans font-semibold text-[#0C0B0A] bg-[#F4EFE6]"
               >
                 <span>{STORYTELLING_STEPS[2].ctaText}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <span className="text-base leading-none">→</span>
               </a>
             </div>
           </div>

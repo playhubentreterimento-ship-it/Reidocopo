@@ -15,15 +15,18 @@ export const FAQ: React.FC = () => {
       <div className="max-w-[900px] mx-auto px-5 sm:px-8">
         {/* Header */}
         <div className="text-center mb-16 sm:mb-20">
-          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#B8975A] mb-4 block">
-            Dúvidas Frequentes
-          </span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#B8975A]/40 bg-[#EAE3D6] mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#B8975A]" />
+            <span className="font-sans font-semibold text-[13px] text-[#1A1816]">
+              Dúvidas frequentes
+            </span>
+          </div>
 
-          <h2 className="font-serif text-[clamp(2.5rem,5.5vw,4.5rem)] leading-[1.05] tracking-tight font-normal text-[#1A1816] mb-6">
-            Perguntas <span className="italic font-normal">frequentes.</span>
+          <h2 className="font-serif font-medium text-[clamp(2rem,4vw,3.4rem)] leading-[1.08] tracking-[-0.02em] text-[#1A1816] mb-6">
+            Perguntas <span className="italic font-medium text-[#B8975A]">frequentes.</span>
           </h2>
 
-          <p className="text-base text-[#6B655C] leading-[1.7] font-normal">
+          <p className="font-sans text-[17px] sm:text-[18px] text-[#6B655C] leading-[1.65] font-normal">
             Tudo o que você precisa saber sobre a fabricação dos seus ecopos personalizados.
           </p>
         </div>
@@ -39,7 +42,7 @@ export const FAQ: React.FC = () => {
                   onClick={() => toggleItem(idx)}
                   className="w-full py-6 sm:py-7 flex items-center justify-between text-left gap-6 group"
                 >
-                  <span className="font-serif text-xl sm:text-2xl text-[#1A1816] font-normal group-hover:text-[#B8975A] transition-colors">
+                  <span className="font-serif text-[1.4rem] sm:text-[1.55rem] text-[#1A1816] font-medium group-hover:text-[#B8975A] transition-colors leading-snug">
                     {item.question}
                   </span>
 
@@ -61,7 +64,7 @@ export const FAQ: React.FC = () => {
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <div className="pb-7 text-[#6B655C] text-sm sm:text-base leading-[1.7] font-normal max-w-2xl">
+                      <div className="pb-7 text-[#6B655C] font-sans text-[16px] sm:text-[17px] leading-[1.65] font-normal max-w-2xl">
                         {item.answer}
                       </div>
                     </motion.div>

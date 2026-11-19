@@ -34,13 +34,15 @@ export default {
         }
       },
       fontFamily: {
-        serif: ['"Instrument Serif"', '"Cormorant Garamond"', 'Georgia', 'serif'],
-        sans: ['"Manrope"', '"Inter"', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace'],
+        serif: ['var(--font-display)', '"Fraunces"', 'Georgia', 'serif'],
+        sans: ['var(--font-body)', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-body)', '"Plus Jakarta Sans"', 'sans-serif'],
       },
       borderRadius: {
         xs: '2px',
         sm: '4px',
+        pill: '9999px',
+        card: '14px',
       },
       transitionTimingFunction: {
         luxury: 'cubic-bezier(0.22, 1, 0.36, 1)',

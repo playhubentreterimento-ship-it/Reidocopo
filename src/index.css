@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 :root {
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --bg-dark: #0C0B0A;
   --bg-ivory: #F4EFE6;
   --bg-ivory-dark: #EAE3D6;
@@ -16,7 +18,7 @@
 html {
   background-color: var(--bg-dark);
   color: var(--text-light);
-  font-family: 'Manrope', 'Inter', system-ui, sans-serif;
+  font-family: var(--font-body);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -26,6 +28,16 @@ body {
   padding: 0;
   overflow-x: hidden;
   background-color: #0C0B0A;
+  font-family: var(--font-body);
+}
+
+.font-serif {
+  font-family: var(--font-display);
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+}
+
+.font-sans {
+  font-family: var(--font-body);
 }
 
 /* Subtle, discreet scrollbar */
@@ -41,17 +53,6 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #B8975A;
-}
-
-/* 1px Hairline utility borders */
-.border-hairline-dark {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-.border-hairline-light {
-  border: 1px solid rgba(26, 24, 22, 0.1);
-}
-.border-hairline-gold {
-  border: 1px solid #B8975A;
 }
 
 /* Crops hiding third party watermark logos */
