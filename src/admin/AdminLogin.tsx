@@ -1,0 +1,168 @@
+import React, { useState } from 'react';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { Lock, Mail, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
+
+interface AdminLoginProps {
+  onSuccess: () => void;
+}
+
+export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage(null);
+
+    if (!isSupabaseConfigured || !supabase) {
+      setErrorMessage(
+        'Supabase não configurado. Adicione VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY nas variáveis de ambiente.'
+      );
+      return;
+    }
+
+    if (!email.trim() || !password) {
+      setErrorMessage('Por favor, informe e-mail e senha.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+
+      if (error) {
+        if (error.message.includes('Invalid login credentials')) {
+          setErrorMessage('E-mail ou senha incorretos. Verifique suas credenciais no Supabase.');
+        } else {
+          setErrorMessage(error.message);
+        }
+        return;
+      }
+
+      if (data.session) {
+        onSuccess();
+      }
+    } catch (err: unknown) {
+      const errObj = err as Error;
+      setErrorMessage(errObj.message || 'Erro inesperado ao realizar login.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen w-full bg-[#0C0B0A] text-[#F4EFE6] flex items-center justify-center p-4 sm:p-6">
+      <div className="w-full max-w-md bg-[#161514] border border-white/[0.08] rounded-[18px] p-8 sm:p-10 shadow-2xl relative">
+        {/* Top subtle brand */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#B8975A]/40 bg-[#B8975A]/10 text-xs text-[#B8975A] font-semibold mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#B8975A]" />
+            <span>Acesso Restrito</span>
+          </div>
+
+          <h1 className="font-serif text-3xl font-medium text-[#F4EFE6] mb-2">
+            Rei do Copo
+          </h1>
+          <p className="font-sans text-sm text-[#A59E92] font-normal">
+            Painel de controle do catálogo
+          </p>
+        </div>
+
+        {/* Warning if Supabase is not configured */}
+        {!isSupabaseConfigured && (
+          <div className="mb-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs leading-relaxed flex items-start gap-3">
+            <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <strong>Atenção:</strong> As variáveis de ambiente do Supabase não foram detectadas.
+              Configure <code className="text-[#F4EFE6]">VITE_SUPABASE_URL</code> e{' '}
+              <code className="text-[#F4EFE6]">VITE_SUPABASE_ANON_KEY</code>.
+            </div>
+          </div>
+        )}
+
+        {/* Error message */}
+        {errorMessage && (
+          <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-200 text-xs leading-relaxed flex items-start gap-3">
+            <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
+            <div>{errorMessage}</div>
+          </div>
+        )}
+
+        {/* Login form */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#A59E92] mb-2">
+              E-mail de acesso
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#A59E92]">
+                <Mail className="w-4 h-4" />
+              </div>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@reidocopo.com.br"
+                className="w-full pl-10 pr-4 py-3 bg-[#0C0B0A] border border-white/[0.12] rounded-full text-sm text-[#F4EFE6] placeholder-[#6E675D] focus:outline-none focus:border-[#B8975A] transition-colors"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#A59E92] mb-2">
+              Senha
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#A59E92]">
+                <Lock className="w-4 h-4" />
+              </div>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full pl-10 pr-4 py-3 bg-[#0C0B0A] border border-white/[0.12] rounded-full text-sm text-[#F4EFE6] placeholder-[#6E675D] focus:outline-none focus:border-[#B8975A] transition-colors"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3.5 px-6 rounded-full bg-[#F4EFE6] text-[#0C0B0A] text-[15px] font-semibold hover:bg-[#B8975A] transition-colors duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group mt-6"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Entrando...</span>
+              </>
+            ) : (
+              <>
+                <span>Acessar painel</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              </>
+            )}
+          </button>
+        </form>
+
+        {/* Back to public site */}
+        <div className="text-center mt-8 pt-6 border-t border-white/[0.08]">
+          <a
+            href="/"
+            className="text-xs text-[#A59E92] hover:text-[#F4EFE6] transition-colors inline-flex items-center gap-1.5"
+          >
+            <span>←</span>
+            <span>Voltar para o site da Rei do Copo</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};

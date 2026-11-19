@@ -1,9 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Check, Eye } from 'lucide-react';
 import { CATALOG_CATEGORIES, CATALOG_ITEMS } from '../data/catalog';
-import { CatalogCategory, CatalogItem } from '../types';
+import { CatalogItem } from '../types';
 import { useQuote } from '../context/QuoteContext';
 import { ProductModal } from './ProductModal';
+import { fetchPublishedProducts, fetchCategories, isSupabaseConfigured } from '../lib/supabase';
+
+// Skeleton Card no mesmo estilo visual do site
+const SkeletonCard: React.FC = () => (
+  <div className="flex flex-col justify-between bg-[#F4EFE6] border border-[#1A1816]/10 p-6 rounded-[14px] animate-pulse">
+    <div className="relative aspect-[4/5] w-full bg-[#EAE3D6] rounded-[10px] mb-5" />
+    <div>
+      <div className="h-3 w-24 bg-[#EAE3D6] rounded-full mb-3" />
+      <div className="h-6 w-3/4 bg-[#EAE3D6] rounded-md mb-3" />
+      <div className="h-4 w-full bg-[#EAE3D6] rounded-md mb-2" />
+      <div className="h-4 w-2/3 bg-[#EAE3D6] rounded-md mb-6" />
+    </div>
+    <div className="pt-4 border-t border-[#1A1816]/10 flex items-center gap-2.5">
+      <div className="h-11 flex-1 bg-[#EAE3D6] rounded-full" />
+      <div className="h-11 w-11 bg-[#EAE3D6] rounded-full" />
+    </div>
+  </div>
+);
 
 const CleanCatalogCard: React.FC<{ item: CatalogItem }> = ({ item }) => {
   const { addItem, openProductModal } = useQuote();
@@ -21,11 +39,12 @@ const CleanCatalogCard: React.FC<{ item: CatalogItem }> = ({ item }) => {
       onClick={() => openProductModal(item)}
       className="group cursor-pointer flex flex-col justify-between bg-[#F4EFE6] border border-[#1A1816]/10 p-6 rounded-[14px] transition-all hover:border-[#B8975A] hover:shadow-lg"
     >
-      {/* 4:5 Image Container */}
+      {/* 4:5 Image Container com lazy loading e object-cover */}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#EAE3D6] rounded-[10px] p-6 flex items-center justify-center mb-5">
         <img
           src={item.image}
           alt={item.name}
+          loading="lazy"
           className={`max-h-full max-w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.03] ${
             item.cropClass || 'object-center'
           }`}
@@ -91,12 +110,88 @@ const CleanCatalogCard: React.FC<{ item: CatalogItem }> = ({ item }) => {
 };
 
 export const Catalog: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<CatalogCategory>('all');
+  const [items, setItems] = useState<CatalogItem[]>(CATALOG_ITEMS);
+  const [categories, setCategories] = useState<{ id: string; label: string }[]>([
+    ...CATALOG_CATEGORIES,
+  ]);
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [isLoading, setIsLoading] = useState(isSupabaseConfigured);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadCatalogFromSupabase() {
+      if (!isSupabaseConfigured) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const [dbProducts, dbCategories] = await Promise.all([
+          fetchPublishedProducts(),
+          fetchCategories(),
+        ]);
+
+        if (!isMounted) return;
+
+        // Se o Supabase retornou produtos, mapeia para o catálogo
+        if (dbProducts && dbProducts.length > 0) {
+          const mappedItems: CatalogItem[] = dbProducts.map((p) => {
+            const coverImage =
+              p.images && p.images.length > 0
+                ? p.images[0]
+                : '/assets/copo-degrade-rosa.webp';
+
+            return {
+              id: p.id,
+              name: p.name,
+              category: p.category,
+              categoryLabel: p.category,
+              shortDescription: p.description || '',
+              fullDescription: p.description || '',
+              image: coverImage,
+              images: p.images || [coverImage],
+              tags: p.tags || [],
+              is_published: p.is_published,
+              sort_order: p.sort_order,
+            };
+          });
+
+          setItems(mappedItems);
+
+          // Categorias dinâmicas
+          if (dbCategories && dbCategories.length > 0) {
+            const mappedCats = [
+              { id: 'all', label: 'Todos os modelos' },
+              ...dbCategories.map((c) => ({
+                id: c.name,
+                label: c.name,
+              })),
+            ];
+            setCategories(mappedCats);
+          }
+        }
+      } catch (err) {
+        console.warn('Falha ao carregar do Supabase; usando dados estáticos como fallback:', err);
+        // Fallback já garantido pelos estados iniciais
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadCatalogFromSupabase();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const filteredItems =
     activeCategory === 'all'
-      ? CATALOG_ITEMS
-      : CATALOG_ITEMS.filter(item => item.category === activeCategory);
+      ? items
+      : items.filter((item) => item.category === activeCategory);
 
   return (
     <section id="catalogo" className="relative w-full bg-[#F4EFE6] text-[#1A1816] py-32 sm:py-40 border-t border-[#1A1816]/10">
@@ -122,10 +217,10 @@ export const Catalog: React.FC = () => {
 
         {/* Clean Text Filter Tabs with Champagne Underline */}
         <div className="flex items-center justify-start sm:justify-center overflow-x-auto pb-4 mb-16 no-scrollbar gap-8">
-          {CATALOG_CATEGORIES.map(category => (
+          {categories.map((category) => (
             <button
               key={category.id}
-              onClick={() => setActiveCategory(category.id as CatalogCategory)}
+              onClick={() => setActiveCategory(category.id)}
               className={`pb-2 font-sans text-[15px] transition-colors whitespace-nowrap border-b-2 ${
                 activeCategory === category.id
                   ? 'text-[#1A1816] border-[#B8975A] font-semibold'
@@ -137,12 +232,29 @@ export const Catalog: React.FC = () => {
           ))}
         </div>
 
-        {/* Regular 3-Column Grid (2 on tablet, 1 on mobile) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredItems.map(item => (
-            <CleanCatalogCard key={item.id} item={item} />
-          ))}
-        </div>
+        {/* Grid de produtos ou Skeletons */}
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </div>
+        ) : filteredItems.length === 0 ? (
+          <div className="text-center py-16 text-[#6B655C]">
+            <p className="font-serif text-2xl text-[#1A1816] mb-2 font-medium">
+              Nenhum produto nesta categoria
+            </p>
+            <p className="text-sm">
+              Explore outros modelos selecionando "Todos os modelos" acima.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredItems.map((item) => (
+              <CleanCatalogCard key={item.id} item={item} />
+            ))}
+          </div>
+        )}
       </div>
 
       <ProductModal />

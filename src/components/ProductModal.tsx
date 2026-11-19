@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Plus, Minus, Check, MessageSquare } from 'lucide-react';
 import { useQuote } from '../context/QuoteContext';
@@ -8,10 +8,20 @@ export const ProductModal: React.FC = () => {
   const { selectedProductForModal, closeProductModal, addItem } = useQuote();
   const [quantity, setQuantity] = useState(100);
   const [added, setAdded] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  // Reset active image on open
+  useEffect(() => {
+    setActiveImageIndex(0);
+    setQuantity(100);
+  }, [selectedProductForModal]);
 
   if (!selectedProductForModal) return null;
 
   const item = selectedProductForModal;
+  const gallery =
+    item.images && item.images.length > 0 ? item.images : [item.image];
+  const activeImage = gallery[activeImageIndex] || item.image;
 
   const handleAdd = () => {
     addItem(item, quantity);
@@ -42,24 +52,50 @@ export const ProductModal: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 16 }}
           transition={{ duration: 0.25 }}
-          className="relative z-10 w-full max-w-3xl rounded-[16px] bg-[#F4EFE6] text-[#1A1816] p-8 sm:p-12 border border-[#1A1816]/10 shadow-2xl"
+          className="relative z-10 w-full max-w-3xl rounded-[16px] bg-[#F4EFE6] text-[#1A1816] p-6 sm:p-10 border border-[#1A1816]/10 shadow-2xl my-auto"
         >
           {/* Close button */}
           <button
             onClick={closeProductModal}
-            className="absolute top-6 right-6 p-2 text-[#6B655C] hover:text-[#1A1816] transition-colors"
+            className="absolute top-5 right-5 p-2 text-[#6B655C] hover:text-[#1A1816] transition-colors"
           >
             <X className="w-5 h-5 stroke-[1.5]" />
           </button>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            {/* Left: Product Image */}
-            <div className="relative aspect-[4/5] rounded-[12px] overflow-hidden bg-[#EAE3D6] border border-[#1A1816]/10 p-6 flex items-center justify-center">
-              <img
-                src={item.image}
-                alt={item.name}
-                className={`max-h-full max-w-full object-contain ${item.cropClass || 'object-center'}`}
-              />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 items-center">
+            {/* Left: Product Image & Gallery */}
+            <div className="flex flex-col gap-3">
+              <div className="relative aspect-[4/5] rounded-[12px] overflow-hidden bg-[#EAE3D6] border border-[#1A1816]/10 p-6 flex items-center justify-center">
+                <img
+                  src={activeImage}
+                  alt={item.name}
+                  loading="lazy"
+                  className={`max-h-full max-w-full object-contain ${item.cropClass || 'object-center'}`}
+                />
+              </div>
+
+              {/* Gallery Thumbnails (se houver mais de 1 foto) */}
+              {gallery.length > 1 && (
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+                  {gallery.map((imgUrl, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveImageIndex(idx)}
+                      className={`w-12 h-14 rounded-lg overflow-hidden border p-1 bg-[#EAE3D6] transition-all flex-shrink-0 ${
+                        activeImageIndex === idx
+                          ? 'border-[#B8975A] ring-1 ring-[#B8975A]'
+                          : 'border-[#1A1816]/15 hover:border-[#1A1816]/40 opacity-70 hover:opacity-100'
+                      }`}
+                    >
+                      <img
+                        src={imgUrl}
+                        alt={`${item.name} ${idx + 1}`}
+                        className="max-h-full max-w-full object-contain mx-auto"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Right: Details */}
@@ -78,16 +114,18 @@ export const ProductModal: React.FC = () => {
                 </p>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {item.tags.map((tag, i) => (
-                    <span
-                      key={i}
-                      className="text-[12px] font-sans font-medium text-[#6B655C] bg-[#EAE3D6] px-3 py-1 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                {item.tags && item.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-8">
+                    {item.tags.map((tag, i) => (
+                      <span
+                        key={i}
+                        className="text-[12px] font-sans font-medium text-[#6B655C] bg-[#EAE3D6] px-3 py-1 rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Quantity Stepper & Add */}
@@ -96,7 +134,7 @@ export const ProductModal: React.FC = () => {
                   <span>Quantidade desejada</span>
                   <div className="flex items-center gap-3 bg-[#EAE3D6] rounded-full p-1 border border-[#1A1816]/10">
                     <button
-                      onClick={() => setQuantity(q => Math.max(50, q - 50))}
+                      onClick={() => setQuantity((q) => Math.max(50, q - 50))}
                       className="w-8 h-8 rounded-full flex items-center justify-center text-[#1A1816] hover:bg-[#F4EFE6] transition-colors"
                     >
                       <Minus className="w-3.5 h-3.5" />
@@ -105,7 +143,7 @@ export const ProductModal: React.FC = () => {
                       {quantity}
                     </span>
                     <button
-                      onClick={() => setQuantity(q => q + 50)}
+                      onClick={() => setQuantity((q) => q + 50)}
                       className="w-8 h-8 rounded-full flex items-center justify-center text-[#1A1816] hover:bg-[#F4EFE6] transition-colors"
                     >
                       <Plus className="w-3.5 h-3.5" />

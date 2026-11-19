@@ -1,23 +1,21 @@
-export type CatalogCategory =
-  | 'all'
-  | 'fosco-degrade'
-  | 'estampa-total'
-  | 'com-alca'
-  | 'tacas-premium';
+export type CatalogCategory = string;
 
 export interface CatalogItem {
   id: string;
   name: string;
-  category: CatalogCategory;
+  category: string;
   categoryLabel: string;
   shortDescription: string;
   fullDescription: string;
   image: string;
+  images?: string[];
   tags: string[];
   badge?: string;
   cropClass?: string;
   featured?: boolean;
   bentoSize?: 'normal' | 'tall' | 'wide';
+  is_published?: boolean;
+  sort_order?: number;
 }
 
 export interface CartItem {

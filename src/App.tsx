@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { QuoteProvider } from './context/QuoteContext';
 import { ScrollProgressBar } from './components/ScrollProgressBar';
 import { Header } from './components/Header';
@@ -13,8 +13,37 @@ import { FinalCTA } from './components/FinalCTA';
 import { Footer } from './components/Footer';
 import { QuoteDrawer } from './components/QuoteDrawer';
 import { FloatingQuoteButton } from './components/FloatingQuoteButton';
+import { AdminDashboard } from './admin/AdminDashboard';
 
 export const App: React.FC = () => {
+  const [isAdminRoute, setIsAdminRoute] = useState(() => {
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    return path.startsWith('/admin') || hash === '#admin';
+  });
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      const path = window.location.pathname.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+      setIsAdminRoute(path.startsWith('/admin') || hash === '#admin');
+    };
+
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
+  }, []);
+
+  // Se rota for /admin, renderiza o Painel Administrativo com meta noindex e proteção por senha
+  if (isAdminRoute) {
+    return <AdminDashboard />;
+  }
+
+  // Caso contrário, renderiza a landing page pública de luxo
   return (
     <QuoteProvider>
       {/* 1px Champagne scroll progress bar */}
